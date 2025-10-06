@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
+ 
 class UserController extends Controller
 {
     function index(Request $request)
@@ -17,14 +17,14 @@ class UserController extends Controller
             'message' => ['These credentials do not match our records.']
              ], 404);
           }
-
+ 
           $token = $user->createToken('my-app-token')->plainTextToken;
-
+ 
           $response = [
              'user' => $user,
               'token' => $token
           ];
-
+ 
         return response($response, 201);
     }
 }

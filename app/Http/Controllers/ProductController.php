@@ -1,11 +1,11 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
-
+ 
 use App\Models\Product;
+use App\Http\Request\StoreProductRequest;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreProductRequest; 
-
+ 
 class ProductController extends Controller
 {
     /**
@@ -15,23 +15,23 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return response()->json([
-            'status'   => true,
+            'status' => 'true',
             'products' => $products,
+ 
         ]);
     }
-
-    public function store(StoreProductRequest $request)
+ 
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
         $product = Product::create($request->all());
-
-        return response()->json([
-            'status'  => true,
-            'message' => 'Product Created successfully!',
-            'product' => $product
-        ], 200);
+ 
+        return response()->json([ 'status' => true,
+        'message' => "Product Created succesfully!", 'product' => $product], 200);
     }
-
-
+ 
     /**
      * Display the specified resource.
      */
@@ -39,7 +39,7 @@ class ProductController extends Controller
     {
         //
     }
-
+ 
     /**
      * Update the specified resource in storage.
      */
@@ -47,7 +47,7 @@ class ProductController extends Controller
     {
         //
     }
-
+ 
     /**
      * Remove the specified resource from storage.
      */
@@ -56,3 +56,4 @@ class ProductController extends Controller
         //
     }
 }
+ 

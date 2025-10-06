@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -16,12 +19,16 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function ($middleware) {
+    ->withMiddleware(function (Middleware $middleware) {
+        // Globale middleware (optioneel)
+        // $middleware->append(SomeGlobalMiddleware::class);
+
         // Middlewaregroepen
         $middleware->group('web', [
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
@@ -29,12 +36,16 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->group('api', [
             EnsureFrontendRequestsAreStateful::class,
+            //'throttle:api',
             SubstituteBindings::class,
         ]);
 
+        // Route-middleware (optioneel)
         $middleware->alias([
             'abilities' => Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
             'ability' => Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
         ]);
     })
-    ->create();
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();
