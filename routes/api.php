@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;  
 Route::apiResource('products', ProductController::class);
 use App\Http\Controllers\UserController;
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('products', ProductController::class);
 });

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
  
 use App\Models\Product;
-use App\Http\Request\StoreProductRequest;
+use App\Http\Requests\StoreProductRequest;
 use Illuminate\Http\Request;
  
 class ProductController extends Controller
@@ -24,7 +24,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         $product = Product::create($request->all());
  
